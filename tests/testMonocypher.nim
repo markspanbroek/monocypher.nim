@@ -2,17 +2,12 @@ import unittest
 import sysrandom
 import monocypher
 
-let secretKey = getRandomBytes(32)
-let message = [1u8, 2u8, 3u8]
-
 test "signing":
-  var publicKey: array[32, uint8]
-  var signature: array[64, uint8]
+  let secretKey: Key = getRandomBytes(32)
+  let publicKey: Key = crypto_sign_public_key(secretKey)
+  let message = "hello"
 
-  let messagePtr = unsafeAddr message[0]
-  let messageLen = uint(sizeof(message))
+  let signature = crypto_sign(secretKey, public_key, message)
 
-  crypto_sign_public_key(public_key, secretKey)
-  crypto_sign(signature, secretKey, public_key, messagePtr, messageLen)
-  
-  check crypto_check(signature, public_key, messagePtr, messageLen) == 0
+  check crypto_check(signature, publicKey, message)
+  check not crypto_check(signature, publicKey, message & "!")
