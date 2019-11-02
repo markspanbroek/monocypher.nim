@@ -14,11 +14,11 @@ func crypto_key_exchange*(yourSecretKey, theirPublicKey: Key): Key =
 func crypto_sign_public_key*(secretKey: Key): Key =
   cimports.crypto_sign_public_key(result, secretKey)
 
-func crypto_sign*(secretKey: Key, publicKey: Key, message: Bytes): Signature =
+func crypto_sign*(secretKey, publicKey: Key, message: Bytes): Signature =
   let (messagePtr, messageLen) = pointerAndLength(message)
   cimports.crypto_sign(result, secretKey, publicKey, messagePtr, messageLen)
 
-func crypto_sign*(secretKey: Key, publicKey: Key, message: string): Signature =
+func crypto_sign*(secretKey, publicKey: Key, message: string): Signature =
   result = crypto_sign(secretKey, publicKey, bytes(message))
 
 func crypto_check*(signature: Signature, publicKey: Key, message: Bytes): bool =
