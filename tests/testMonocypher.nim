@@ -19,3 +19,9 @@ test "signing":
 
   check crypto_check(signature, publicKey, message)
   check not crypto_check(signature, publicKey, message & "!")
+
+test "wipe":
+  let secretKey: Key = getRandomBytes(sizeof(Key))
+  crypto_wipe(secretKey)
+  var empty: Key
+  check secretKey == empty

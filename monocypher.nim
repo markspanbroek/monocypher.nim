@@ -28,3 +28,9 @@ func crypto_check*(signature: Signature, publicKey: Key, message: Bytes): bool =
 func crypto_check*(signature: Signature, publicKey: Key, message: string): bool =
   result = crypto_check(signature, publicKey, bytes(message))
 
+func crypto_wipe*(secret: pointer, size: uint) =
+  cimports.crypto_wipe(secret, size)
+
+func crypto_wipe*(secret: openArray[any]) =
+  let (secretPtr, secretLen) = pointerAndLength(secret)
+  crypto_wipe(secretPtr, secretLen)
