@@ -5,6 +5,12 @@ type
   Key* = array[32, byte]
   Signature* = array[64, byte]
 
+func crypto_key_exchange_public_key*(secretKey: Key): Key =
+  cimports.crypto_key_exchange_public_key(result, secretKey)
+
+func crypto_key_exchange*(yourSecretKey, theirPublicKey: Key): Key =
+  discard cimports.crypto_key_exchange(result, yourSecretKey, theirPublicKey)
+
 func crypto_sign_public_key*(secretKey: Key): Key =
   cimports.crypto_sign_public_key(result, secretKey)
 

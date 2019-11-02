@@ -11,3 +11,6 @@ static:
   cCompile(src/"src"/"monocypher.c")
 
 cImport(src/"src"/"monocypher.h")
+
+template crypto_key_exchange_public_key*(args: varargs[untyped]) =
+  crypto_x25519_public_key(args)
