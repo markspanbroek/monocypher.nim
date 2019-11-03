@@ -20,6 +20,23 @@ test "signing":
   check crypto_check(signature, publicKey, message)
   check not crypto_check(signature, publicKey, message & "!")
 
+test "encrypt and decrypt":
+  let key: Key = getRandomBytes(sizeof(Key))
+  let nonce: Nonce = getRandomBytes(sizeof(Nonce))
+  let plaintext = cast[seq[byte]]("hello")
+  let (mac, ciphertext) = crypto_lock(key, nonce, plaintext)
+  let decrypted = crypto_unlock(key, nonce, mac, ciphertext)
+
+  check decrypted == plaintext
+
+test "decryption failure":
+  let key: Key = getRandomBytes(sizeof(Key))
+  let nonce: Nonce = getRandomBytes(sizeof(Nonce))
+  let mac = getRandomBytes(sizeof(Mac))
+  let cipherText = getRandomBytes(42)
+  expect IOError:
+    discard crypto_unlock(key, nonce, mac, ciphertext)
+
 test "wipe":
   let secretKey: Key = getRandomBytes(sizeof(Key))
   crypto_wipe(secretKey)
