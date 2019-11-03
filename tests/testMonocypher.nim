@@ -13,12 +13,12 @@ test "key exchange":
 test "signing":
   let secretKey: Key = getRandomBytes(sizeof(Key))
   let publicKey: Key = crypto_sign_public_key(secretKey)
-  let message = "hello"
+  let message = cast[seq[byte]]("hello")
 
   let signature = crypto_sign(secretKey, public_key, message)
 
   check crypto_check(signature, publicKey, message)
-  check not crypto_check(signature, publicKey, message & "!")
+  check not crypto_check(signature, publicKey, message & 42u8)
 
 test "encrypt and decrypt":
   let key: Key = getRandomBytes(sizeof(Key))
