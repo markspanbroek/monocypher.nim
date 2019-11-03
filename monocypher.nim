@@ -34,8 +34,9 @@ func crypto_lock*(key: Key, nonce: Nonce, plaintext: Bytes): (Mac, seq[byte]) =
 func crypto_unlock*(key: Key, nonce: Nonce, mac: Mac, ciphertext: Bytes): seq[byte] =
   let (cipherPtr, cipherLen) = pointerAndLength(ciphertext)
   result = newSeq[byte](cipherLen)
-  let unlockResult = c.crypto_unlock(addr result[0], key, nonce, mac, cipherPtr, cipherLen)
-  if not unlockResult == 0:
+  let plainPtr = addr result[0]
+  let success = c.crypto_unlock(plainPtr, key, nonce, mac, cipherPtr, cipherLen)
+  if not success == 0:
     raise newException(IOError, "message corrupted")
 
 func crypto_wipe*(secret: pointer, size: uint) =
