@@ -43,7 +43,7 @@ defer: crypto_wipe(decrypted)
 
 Sign a message:
 
-```
+```nim
 let publicKey = crypto_sign_public_key(secretKey)
 let message = cast[seq[byte]]("hello")
 let signature = crypto_sign(secretKey, publicKey, message)
