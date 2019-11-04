@@ -15,7 +15,7 @@ test "signing":
   let publicKey: Key = crypto_sign_public_key(secretKey)
   let message = cast[seq[byte]]("hello")
 
-  let signature = crypto_sign(secretKey, public_key, message)
+  let signature = crypto_sign(secretKey, publicKey, message)
 
   check crypto_check(signature, publicKey, message)
   check not crypto_check(signature, publicKey, message & 42u8)
