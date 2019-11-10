@@ -2,10 +2,15 @@ from monocypher/cImports as c import nil
 import monocypher/cHelpers
 
 type
+  Hash* = array[64, byte]
   Key* = array[32, byte]
   Nonce* = array[24, byte]
   Mac* = array[16, byte]
   Signature* = array[64, byte]
+
+func crypto_blake2b*(message: Bytes): Hash =
+  let (messagePtr, messageLen) = pointerAndLength(message)
+  c.crypto_blake2b(result, messagePtr, messageLen)
 
 func crypto_key_exchange_public_key*(secretKey: Key): Key =
   c.crypto_key_exchange_public_key(result, secretKey)

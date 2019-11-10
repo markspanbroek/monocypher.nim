@@ -1,7 +1,11 @@
 import unittest
+import knownhashes
 import sysrandom
 import monocypher
 
+test "hashing byte arrays":
+  check crypto_blake2b(empty.toBytes()) == knownHashes[empty].toBytes()
+  check crypto_blake2b(quick.toBytes()) == knownHashes[quick].toBytes()
 test "key exchange":
   let secret1, secret2: Key = getRandomBytes(sizeof(Key))
   let public1 = crypto_key_exchange_public_key(secret1)
