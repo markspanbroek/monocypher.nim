@@ -2,4 +2,4 @@ type
   Bytes* = openArray[byte]
 
 func pointerAndLength*(bytes: Bytes): (ptr[byte], uint) =
-  result = (unsafeAddr bytes[0], uint(len(bytes)))
+  result = (cast[ptr[byte]](unsafeAddr bytes), uint(len(bytes)))
