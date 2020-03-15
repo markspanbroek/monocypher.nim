@@ -19,7 +19,7 @@ func crypto_key_exchange_public_key*(secretKey: Key): Key =
   c.crypto_key_exchange_public_key(result, secretKey)
 
 func crypto_key_exchange*(yourSecretKey, theirPublicKey: Key): Key =
-  discard c.crypto_key_exchange(result, yourSecretKey, theirPublicKey)
+  c.crypto_key_exchange(result, yourSecretKey, theirPublicKey)
 
 func crypto_sign_public_key*(secretKey: Key): Key =
   c.crypto_sign_public_key(result, secretKey)
