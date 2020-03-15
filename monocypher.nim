@@ -53,3 +53,12 @@ func crypto_wipe*(secret: pointer, size: uint) =
 func crypto_wipe*(secret: openArray[any]) =
   let (secretPtr, secretLen) = pointerAndLength(secret)
   crypto_wipe(secretPtr, secretLen)
+
+func crypto_verify*(a: array[16, byte], b: array[16, byte]): bool =
+  c.crypto_verify16(a, b) == 0
+
+func crypto_verify*(a: array[32, byte], b: array[32, byte]): bool =
+  c.crypto_verify32(a, b) == 0
+
+func crypto_verify*(a: array[64, byte], b: array[64, byte]): bool =
+  c.crypto_verify64(a, b) == 0

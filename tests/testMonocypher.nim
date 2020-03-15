@@ -46,6 +46,20 @@ test "decryption failure":
   expect IOError:
     discard crypto_unlock(key, nonce, mac, ciphertext)
 
+test "constant time comparisons":
+
+  proc check_crypto_verify(size: static uint) =
+    var a, b: array[size, byte]
+    a[^1] = 1
+    b[^1] = 2
+    check crypto_verify(a, a) == true
+    check crypto_verify(b, b) == true
+    check crypto_verify(a, b) == false
+
+  check_crypto_verify(16)
+  check_crypto_verify(32)
+  check_crypto_verify(64)
+
 test "wipe":
   let secretKey: Key = getRandomBytes(sizeof(Key))
   crypto_wipe(secretKey)
