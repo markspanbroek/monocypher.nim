@@ -49,6 +49,21 @@ let message = cast[seq[byte]]("hello")
 let signature = crypto_sign(secretKey, publicKey, message)
 ```
 
+Hash a byte array or a string:
+
+```nim
+let hashOfBytes = crypto_blake2b([1u8, 2u8, 3u8])
+let hashOfString = crypto_blake2b("hello")
+```
+
+Timing-safe comparisons for byte arrays of length 16, 32 or 64:
+
+```nim
+let hash1 = crypto_blake2b("one")
+let hash2 = crypto_blake2b("two")
+let hashesAreEqual = crypto_verify(hash1, hash2) # false
+```
+
 [Monocypher]: https://monocypher.org
 [manual]: https://monocypher.org/manual/
 [Nim]: https://nim-lang.org
