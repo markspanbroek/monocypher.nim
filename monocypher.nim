@@ -12,6 +12,9 @@ func crypto_blake2b*(message: Bytes): Hash =
   let (messagePtr, messageLen) = pointerAndLength(message)
   c.crypto_blake2b(result, messagePtr, messageLen)
 
+func crypto_blake2b*(message: string): Hash =
+  crypto_blake2b(cast[seq[byte]](message))
+
 func crypto_key_exchange_public_key*(secretKey: Key): Key =
   c.crypto_key_exchange_public_key(result, secretKey)
 
