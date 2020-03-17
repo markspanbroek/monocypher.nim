@@ -8,12 +8,14 @@ type
   Mac* = array[16, byte]
   Signature* = array[64, byte]
 
-func crypto_blake2b*(message: Bytes): Hash =
+func crypto_blake2b*(message: Bytes, key: Bytes = []): Hash =
   let (messagePtr, messageLen) = pointerAndLength(message)
-  c.crypto_blake2b(result, messagePtr, messageLen)
+  let (keyPtr, keyLen) = pointerAndLength(key)
+  c.crypto_blake2b_general(addr result[0], 64,
+                          keyPtr, keyLen, messagePtr, messageLen)
 
-func crypto_blake2b*(message: string): Hash =
-  crypto_blake2b(cast[seq[byte]](message))
+func crypto_blake2b*(message: string, key: Bytes = []): Hash =
+  crypto_blake2b(cast[seq[byte]](message), key)
 
 func crypto_key_exchange_public_key*(secretKey: Key): Key =
   c.crypto_key_exchange_public_key(result, secretKey)

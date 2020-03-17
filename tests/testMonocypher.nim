@@ -11,6 +11,11 @@ test "hashing strings":
   check crypto_blake2b(empty) == knownHashes[empty].toBytes()
   check crypto_blake2b(quick) == knownHashes[quick].toBytes()
 
+test "hashing with a key":
+  let key = getRandomBytes(32)
+  check crypto_blake2b(quick, key) == crypto_blake2b(quick, key)
+  check crypto_blake2b(quick, key) != crypto_blake2b(quick)
+
 test "key exchange":
   let secret1, secret2: Key = getRandomBytes(sizeof(Key))
   let public1 = crypto_key_exchange_public_key(secret1)
