@@ -5,7 +5,7 @@ const
   src = currentSourcePath.parentDir/"build"
 
 static:
-  gitPull("https://github.com/LoupVaillant/Monocypher.git", checkout = "3.0.0", outdir = src)
+  gitPull("https://github.com/LoupVaillant/Monocypher.git", checkout = "3.1.2", outdir = src)
 
 static:
   cCompile(src/"src"/"monocypher.c")
