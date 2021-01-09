@@ -3,14 +3,15 @@ name: CI
 on: [push]
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
-
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macOS-latest, windows-latest]
     steps:
-    - uses: actions/checkout@master
-    - uses: jiro4989/setup-nim-action@v1.1.2
-      with:
-        nim-version: '1.2.2'
-    - run: nimble install -y
-    - run: nimble test
+    - uses: actions/checkout@v2
+    - uses: iffy/install-nim@v3
+    - name: Build
+      run: nimble install -y
+    - name: Test
+      run: nimble test
