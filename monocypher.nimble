@@ -1,13 +1,9 @@
-# Package
-
 version     = "0.2.2"
 author      = "Mark Spanbroek"
 description = "Monocypher"
 license     = "MIT"
-
-# Dependencies
-
-requires "nimterop >= 0.6.13 & < 0.7.0"
+installDirs = @["sources", "monocypher"]
+installFiles = @["monocypher.nim"]
 
 # Test dependencies
 

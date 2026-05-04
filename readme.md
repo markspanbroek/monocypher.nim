@@ -4,7 +4,8 @@ Monocypher for Nim
 Allows the [Monocypher] cryptography library to be used in [Nim]. Please refer
 to its [manual] for detailed usage and security considerations.
 
-### Examples
+Examples
+--------
 
 Create a secret key using the [sysrandom] library, and ensure that it is
 erased from memory once it's no longer used:
@@ -63,6 +64,16 @@ let hash1 = crypto_blake2b("one")
 let hash2 = crypto_blake2b("two")
 let hashesAreEqual = crypto_verify(hash1, hash2) # false
 ```
+
+Updating to a newer version
+---------------------------
+
+Follow these steps when updating the wrapper to a newer version of sss:
+
+   1. update the git submodule in `sources/` to point to the new version
+   2. run `build.sh`
+   3. update the version in `monocypher.nimble`
+   4. commit the changes
 
 [Monocypher]: https://monocypher.org
 [manual]: https://monocypher.org/manual/
