@@ -1,4 +1,4 @@
-version     = "0.2.3"
+version     = "0.3.0"
 author      = "Mark Spanbroek"
 description = "Monocypher"
 license     = "MIT"
