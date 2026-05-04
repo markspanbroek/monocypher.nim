@@ -21,9 +21,9 @@ defer: crypto_wipe(secretKey)
 Exchange a shared symmetric key using public keys:
 
 ```nim
-let yourPublicKey = crypto_key_exchange_public_key(secretKey)
+let yourPublicKey = crypto_x25519_public_key(secretKey)
 let theirPublicKey = # obtain public key from other party
-let sharedKey = crypto_key_exchange(secretKey, theirPublicKey)
+let sharedKey = crypto_x25519(secretKey, theirPublicKey)
 defer: crypto_wipe(sharedKey)
 ```
 
@@ -32,22 +32,25 @@ Encrypt a message using a symmetric key:
 ```nim
 let nonce = getRandomBytes(sizeof(Nonce))
 let plaintext = cast[seq[byte]]("hello")
-let (mac, ciphertext) = crypto_lock(sharedKey, nonce, plaintext)
+let (mac, ciphertext) = crypto_aead_lock(sharedKey, nonce, plaintext)
 ```
 
 Decrypt a message using a symmetric key:
 
 ```nim
-let decrypted = crypto_unlock(sharedKey, nonce, mac, ciphertext)
+let decrypted = crypto_aead_unlock(mac, sharedKey, nonce, ciphertext)
 defer: crypto_wipe(decrypted)
 ```
 
 Sign a message:
 
 ```nim
-let publicKey = crypto_sign_public_key(secretKey)
+let seed = getRandomBytes(sizeof(Seed))
+defer: crypto_wipe(seed)
+let (secretKey, publicKey) = crypto_eddsa_key_pair(seed)
+defer: crypto_wipe(secretKey)
 let message = cast[seq[byte]]("hello")
-let signature = crypto_sign(secretKey, publicKey, message)
+let signature = crypto_eddsa_sign(secretKey, message)
 ```
 
 Hash a byte array or a string:
